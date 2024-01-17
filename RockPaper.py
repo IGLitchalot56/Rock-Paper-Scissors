@@ -13,32 +13,37 @@ def winner(player_choice, ai_choice):
     else:
         return "You lose!"
 
-#def main():
-st.title("Rock, Paper, Scissors Game")
+def main():
+    st.title("Rock, Paper, Scissors Game")
 
-# Initialize score
-score = {"player": 0, "ai": 0}
+    # Initialize score
+    if "score" not in st.session_state:
+        st.session_state.score = {"player": 0, "ai": 0}
 
-# what played picked
-player_choice = st.radio("Choose your move:", ["Rock", "Paper", "Scissors"])
+    # What player picked
+    player_choice = st.radio("Choose your move:", ["Rock", "Paper", "Scissors"])
 
-# what ai picked
-ai_choice = random.choice(["Rock", "Paper", "Scissors"])
+    # What AI picked
+    ai_choice = random.choice(["Rock", "Paper", "Scissors"])
 
-# determine winner
-result = winner(player_choice, ai_choice)
+    # Determine winner
+    result = winner(player_choice, ai_choice)
 
-# Upd score
-if result == "You win!":
-    score["player"] += 1
-elif result == "You lose!":
-    score["ai"] += 1
+    # Update score
+    if result == "You win!":
+        st.session_state.score["player"] += 1
+    elif result == "You lose!":
+        st.session_state.score["ai"] += 1
 
-# results
-st.write(f"You chose: {player_choice}")
-st.write(f"AI chose: {ai_choice}")
-st.write(result)
-st.write(f"Score: Player {score['player']} - {score['ai']} AI")
+    # Results
+    st.write(f"You chose: {player_choice}")
+    st.write(f"AI chose: {ai_choice}")
+    st.write(result)
+    st.write(f"Score: Player {st.session_state.score['player']} - {st.session_state.score['ai']} AI")
 
-#if __name__ == "__main__":
-    #main()
+    # Reset button
+    if st.button("Reset Score"):
+        st.session_state.score = {"player": 0, "ai": 0}
+
+if __name__ == "__main__":
+    main()
